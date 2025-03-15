@@ -1,5 +1,6 @@
 import React from "react";
 import type { Route } from "./+types/post";
+import { useNavigate } from "react-router";
 
 // export async function clientLoader({ params }: Route.LoaderArgs) {
 //   console.log("Running Client Side");
@@ -22,5 +23,13 @@ export async function loader({ params }: Route.LoaderArgs) {
 export async function action() {}
 
 export default function post({ loaderData }: Route.ComponentProps) {
-  return <div>Post: {loaderData.title}</div>;
+  const navigate = useNavigate();
+
+  return (
+    <div>
+      <button onClick={() => navigate("/dashboard")}>Go to Dashboard</button>
+      <button onClick={() => navigate("/posts")}>Go to Posts</button>
+      <p>Post: {loaderData.title}</p>
+    </div>
+  );
 }

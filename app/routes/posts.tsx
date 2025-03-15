@@ -1,4 +1,4 @@
-import { Form } from "react-router";
+import { Form, Link } from "react-router";
 import type { Route } from "./+types/posts";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
@@ -38,7 +38,9 @@ export default function Posts({
       <ul>
         {loaderData.map((post) => (
           <li key={post.id}>
-            Post {post.id} : {post.title}
+            <Link to={`/posts/${post.id}`}>
+              Post {post.id} : {post.title}
+            </Link>
           </li>
         ))}
       </ul>

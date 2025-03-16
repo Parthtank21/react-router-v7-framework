@@ -1,6 +1,6 @@
 import React from "react";
 import type { Route } from "./+types/post";
-import { useNavigate } from "react-router";
+import { useNavigate, useNavigation } from "react-router";
 
 // export async function clientLoader({ params }: Route.LoaderArgs) {
 //   console.log("Running Client Side");
@@ -24,6 +24,10 @@ export async function action() {}
 
 export default function post({ loaderData }: Route.ComponentProps) {
   const navigate = useNavigate();
+  const navigation = useNavigation();
+
+  const isNavigating = navigation.state;
+  if(isNavigating !== 'idle') return <p>Navigating...</p>
 
   return (
     <div>

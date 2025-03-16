@@ -1,9 +1,14 @@
-import { Form, Link } from "react-router";
+import { Form, Link, useFetcher } from "react-router";
 import type { Route } from "./+types/posts";
 
 export async function clientLoader({ params }: Route.ClientLoaderArgs) {
   const res = await fetch("https://jsonplaceholder.typicode.com/posts");
   return await res.json();
+}
+
+// HydrateFallback is rendered while the client loader is running
+export function HydrateFallback() {
+  return <p>Loading...</p>;
 }
 
 export async function clientAction({
@@ -28,13 +33,21 @@ export default function Posts({
   loaderData,
   actionData,
 }: Route.ComponentProps) {
+  const fetcher = useFetcher();
+  const isSubmitting = fetcher.state !== "idle";
+
+  // Data returned by clientAction
+  console.log(fetcher.data);
+
   return (
     <div>
       <h2>Posts</h2>
-      <Form method="post">
+      <fetcher.Form method="post">
         <input type="text" name="title" />
-        <button type="submit">Submit</button>
-      </Form>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </button>
+      </fetcher.Form>
       <ul>
         {loaderData.map((post) => (
           <li key={post.id}>
